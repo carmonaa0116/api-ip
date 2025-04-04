@@ -5,16 +5,16 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Función para obtener la IP privada
-function getLocalIP() {
-  const interfaces = os.networkInterfaces();
-  for (let iface of Object.values(interfaces)) {
-    for (let config of iface) {
-      if (config.family === "IPv4" && !config.internal) {
-        return config.address;
-      }
+function getIpPrivada() {
+    const networkInterfaces = os.networkInterfaces();
+    for (const iface in networkInterfaces) {
+        for (const ifaceDetails of networkInterfaces[iface]) {
+            if (ifaceDetails.family === 'IPv4' && !ifaceDetails.internal) {
+                return ifaceDetails.address;
+            }
+        }
     }
-  }
-  return "No se encontró IP privada";
+    return 'IP privada no encontrada';
 }
 
 // Ruta para obtener la IP privada
