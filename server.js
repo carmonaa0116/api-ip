@@ -2,7 +2,7 @@ const express = require("express");
 const os = require("os");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 10000;
 
 // Función para obtener la IP privada
 function getIpPrivada() {
@@ -19,7 +19,7 @@ function getIpPrivada() {
 
 // Ruta para obtener la IP privada
 app.get("/get-ip", (req, res) => {
-  res.json({ ip: getLocalIP() });
+  res.json({ ip: getIpPrivada() });  // Usamos getIpPrivada() aquí
 });
 
 // Ruta de prueba
