@@ -4,22 +4,24 @@ const os = require("os");
 const app = express();
 const port = process.env.PORT || 10000;
 
-// Función para obtener la IP privada
+// Función para obtener la IP privada que comienza con 192.168
 function getIpPrivada() {
     const networkInterfaces = os.networkInterfaces();
     for (const iface in networkInterfaces) {
         for (const ifaceDetails of networkInterfaces[iface]) {
             if (ifaceDetails.family === 'IPv4' && !ifaceDetails.internal) {
-                return ifaceDetails.address;
+                if (ifaceDetails.address.startsWith('192.168')) {
+                    return ifaceDetails.address; // Devuelve la IP que comienza con 192.168
+                }
             }
         }
     }
-    return 'IP privada no encontrada';
+    return 'No se encontró una IP privada en el rango 192.168.x.x';
 }
 
 // Ruta para obtener la IP privada
 app.get("/get-ip", (req, res) => {
-  res.json({ ip: getIpPrivada() });  // Usamos getIpPrivada() aquí
+  res.json({ ip: getIpPrivada() });
 });
 
 // Ruta de prueba
